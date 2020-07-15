@@ -1,0 +1,17 @@
+name: CI
+on: [push]
+jobs:
+  lighthouseci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - name: run lighthouse ci
+        run: |
+          npm install && npm install -g @lhci/cli@0.4.x
+          lhci autorun --upload.target=temporary-public-storage || echo "lhci failed"
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{secrets.LHCI_GITHUB_APP_TOKEN}}
+
+
+    
